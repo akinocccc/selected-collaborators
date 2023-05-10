@@ -1,5 +1,5 @@
 name: 'Selected Collaborators'
-description: 'A GitHub Action that selects a number of repository collaborators at random from your repository\\'s collaborators list.'
+description: 'A GitHub Action that selects a number of repository collaborators at random from your repository\'s collaborators list.'
 author: 'akinocccc'
 inputs:
   token:
