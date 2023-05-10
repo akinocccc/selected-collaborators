@@ -22,7 +22,7 @@ jobs:
       - uses: ./
         id: collaborators
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.TEST_TOKEN }}
           
       - run: |
           echo "candidates: ${{ steps.collaborators.outputs['candidates'] }}"
