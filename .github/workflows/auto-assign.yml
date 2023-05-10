@@ -1,0 +1,65 @@
+name: Auto-Assign
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  add-assigness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: akinocccc/selected-collaborators@1.0.0
+        id: candidate
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+      - run: |
+          echo "candidates: ${{ steps.candidate.outputs['candidates'] }}"
+          - run: |
+              echo "candidates: ${{ steps.candidate.outputs['candidates_string'] }}"
+      - run: |
+          echo "collaborators: ${{ steps.candidate.outputs['collaborators'] }}"
+
+
+
+      - uses: wow-actions/auto-assign@v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # using the `org/team_slug` or `/team_slug` syntax to add git team as reviewers
+          reviewers: ${{ steps.candidate.outputs['candidates_string'] }}
+          assignees: ${{ steps.candidate.outputs['candidates_string'] }}
+          skipKeywords: wip, draft
+
+      - name: Issue notification
+        if: github.event_name == 'issues' && steps.candidate.outputs.at_candidates_string != ''
+        uses: actions-cool/maintain-one-comment@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            ♥️ ${{ steps.candidate.outputs.at_candidates_string }}, please verify the issue as soon as possible. Once it's verified, please reply to @${{ github.event.issue.user.login }} with the next steps and the estimated time required.
+            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
+          number: ${{ github.event.issue.number }}
+          body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
+
+      - name: PR notification
+        if: github.event_name == 'pull_request' && steps.candidate.outputs.at_candidates_string != ''
+        uses: actions-cool/maintain-one-comment@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            ♥️ ${{ steps.candidate.outputs.at_candidates_string }}, please verify the issue as soon as possible. Once it's verified, please reply to @${{ github.event.issue.user.login }} with the next steps and the estimated time required.
+            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
+          number: ${{ github.event.issue.number }}
+          body-include: "<!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->"
+      
+      - name: Notification
+        uses: wow-actions/auto-comment@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          issuesOpened: |
+            ♥️ ${{ steps.candidate.outputs.at_candidates_string }}, please verify the issue as soon as possible. Once it's verified, please reply to @${{ github.event.issue.user.login }} with the next steps and the estimated time required.
+            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
+          pullRequestOpened: |
+            ♥️ ${{ steps.candidate.outputs.at_candidates_string }}, please reviews the pull request as soon as possible.
+            <!-- AUTO_ASSIGENEES_NOTIFY_HOOK -->
