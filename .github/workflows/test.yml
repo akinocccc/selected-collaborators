@@ -23,8 +23,9 @@ jobs:
         id: collaborators
         with:
           token: ${{ secrets.TEST_TOKEN }}
-          
-      - run: |
+      
+      - name: Print output    
+        run: |
           echo "candidates: ${{ steps.collaborators.outputs['candidates'] }}"
           echo "candidates_string: ${{ steps.collaborators.outputs['candidates_string'] }}"
           echo "at_candidates_string: ${{ steps.collaborators.outputs['at_candidates_string'] }}"
