@@ -33,7 +33,7 @@ jobs:
 
       - name: Issue notification
         if: github.event_name == 'issues' && steps.candidate.outputs.at_candidates_string != ''
-        uses: actions-cool/maintain-one-comment@v2.0.0
+        uses: actions-cool/maintain-one-comment@v3.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
@@ -44,7 +44,7 @@ jobs:
 
       - name: PR notification
         if: github.event_name == 'pull_request' && steps.candidate.outputs.at_candidates_string != ''
-        uses: actions-cool/maintain-one-comment@v2.0.0
+        uses: actions-cool/maintain-one-comment@v3.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
