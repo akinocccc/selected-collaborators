@@ -10,7 +10,7 @@ jobs:
   add-assigness:
     runs-on: ubuntu-latest
     steps:
-      - uses: akinocccc/selected-collaborators@1.0.0
+      - uses: akinocccc/selected-collaborators@v1.1.1
         id: candidate
         with:
           token: ${{ secrets.GH_TOKEN }}
