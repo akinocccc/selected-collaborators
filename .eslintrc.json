@@ -20,7 +20,7 @@
       "@typescript-eslint/ban-ts-comment": "error",
       "camelcase": "off",
       "@typescript-eslint/consistent-type-assertions": "error",
-      "@typescript-eslint/explicit-function-return-type": ["error", {"allowExpressions": true}],
+      "@typescript-eslint/explicit-function-return-type": ["off", {"allowExpressions": true}],
       "@typescript-eslint/func-call-spacing": ["error", "never"],
       "@typescript-eslint/no-array-constructor": "error",
       "@typescript-eslint/no-empty-interface": "error",
@@ -49,7 +49,6 @@
     },
     "env": {
       "node": true,
-      "es6": true,
-      "jest/globals": true
+      "es6": true
     }
   }

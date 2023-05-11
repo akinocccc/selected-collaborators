@@ -26,7 +26,7 @@ A GitHub Action that selects a number of repository collaborators at random from
 
 ```yaml
 - name: Select random repository collaborators
-  uses: akinocccc/selected-collaborators@v1.0.0
+  uses: amazing-actions/selected-collaborators@v1.1.1
   id: select-collaborators
   with:
     limit_number: 3

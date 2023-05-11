@@ -1,18 +1,22 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {chooseCollaborators, getCollaborators, getOctokit} from './utils'
 
-async function run(): Promise<void> {
+async function run() {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    const octokit = getOctokit()
+    const sparator = core.getInput('sparator')
+    const collaborators = await getCollaborators(octokit)
+    const candidates = chooseCollaborators(collaborators)
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
+    core.setOutput('candidates', candidates)
+    core.setOutput('candidates_string', candidates.join(sparator))
+    core.setOutput(
+      'at_candidates_string',
+      candidates.map(item => `@${item}`).join(', ')
+    )
+    core.setOutput('collaborators', collaborators)
+  } catch (error: unknown) {
+    core.setFailed(error as Error)
   }
 }
 

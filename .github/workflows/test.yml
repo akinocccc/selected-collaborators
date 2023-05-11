@@ -18,12 +18,14 @@ jobs:
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: ./
         id: collaborators
         with:
-          token: ${{ secrets.GH_TOKEN }}
-          
-      - run: |
+          token: ${{ secrets.TEST_TOKEN }}
+      
+      - name: Print output    
+        run: |
           echo "candidates: ${{ steps.collaborators.outputs['candidates'] }}"
           echo "candidates_string: ${{ steps.collaborators.outputs['candidates_string'] }}"
           echo "at_candidates_string: ${{ steps.collaborators.outputs['at_candidates_string'] }}"
